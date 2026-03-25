@@ -1,12 +1,22 @@
 require('dotenv').config();
 const express = require("express");
+
+const pool = require('./db');
+//test db
+const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const app = express();
+
 
 const errorHandler = require('./middleware/errorHandler');
 const notesRouter = require('./routes/notes');
 const logger = require('./middleware/logger');
 const authRouter = require('./routes/auth');
 //middleware to convert raw to json
+app.use(helmet());
+app.use(cors);
+app.use(limiter);
 app.use(logger);
 app.use(express.json());
 app.use('/auth',authRouter);
